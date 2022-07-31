@@ -76,12 +76,12 @@ func compactRepo(path string) {
 	ratio := fmt.Sprintf("%.2f%%", (diff/sizeBefore)*100)
 
 	if diff > 0 {
-		fmt.Printf(" -- Saved %s ", color.GreenString(ratio))
+		fmt.Printf(" — Saved %s ", color.GreenString(ratio))
 		if _, err := color.New(color.FgHiBlack).Println(diffStr); err != nil {
 			log.Fatal(err)
 		}
 	} else {
-		if _, err := color.New(color.FgHiBlack).Println(" -- No change"); err != nil {
+		if _, err := color.New(color.FgHiBlack).Println(" — No change"); err != nil {
 			log.Fatal(err)
 		}
 	}
