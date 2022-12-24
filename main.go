@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -25,9 +25,9 @@ func main() {
 
 }
 
-// scan
+// scan scans the given path
 func scan(path string) {
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,6 +42,7 @@ func scan(path string) {
 	}
 }
 
+// getSizeOfDir returns the size of the given path
 func getSizeOfDir(path string) float64 {
 	cmd := exec.Command("du", "-s", path)
 	stdout, err := cmd.Output()
@@ -57,6 +58,7 @@ func getSizeOfDir(path string) float64 {
 	return float64(size)
 }
 
+// compactRepo compresses the git repo with the given path
 func compactRepo(path string) {
 	pathStr := path
 	if !strings.HasPrefix(path, "/") && path != "." {
@@ -87,6 +89,7 @@ func compactRepo(path string) {
 	}
 }
 
+// execGitGC execute the git gc command on the given path
 func execGitGC(path string) {
 
 	cmd := exec.Command("git", "gc", "--aggressive")
