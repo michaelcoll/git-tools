@@ -6,25 +6,18 @@ on:
 
 jobs:
   releases-matrix:
-    name: Release Go Binary
+    name: Release Binary
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # build and publish in parallel: linux/amd64, linux/arm64,darwin/amd64,darwin/arm64
-        goos: [linux, darwin]
-        goarch: [amd64, arm64]
+        target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl]
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set APP_VERSION env
-        run: echo APP_VERSION=$(echo ${GITHUB_REF} | rev | cut -d'/' -f 1 | rev ) >> ${GITHUB_ENV}
-
-      - uses: wangyoucao577/go-release-action@v1.37
+      - name: Compile and release
+        uses: rust-build/rust-build.action@v1.4.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-          binary_name: "git-compact"
-          ldflags: -w -s
-          executable_compression: upx
-          compress_assets: OFF
+          RUSTTARGET: ${{ matrix.target }}
+          MINIFY: true

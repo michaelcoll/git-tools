@@ -1,10 +1,9 @@
 build:
-	go build -v -ldflags="-s -w" .
+	cargo build
 
 .PHONY: test
 test:
-	go test -v ./...
+	cargo test
 
 dep-upgrade:
-	go get -u
-	go mod tidy
+	cargo fetch
