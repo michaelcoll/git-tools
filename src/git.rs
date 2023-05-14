@@ -22,6 +22,7 @@ use size::Size;
 #[derive(Debug, PartialEq)]
 pub struct FileStat {
     pub diff: Size,
+    pub negative_diff: bool,
     pub ratio: f32,
 }
 
@@ -69,12 +70,13 @@ pub fn compact_repo(folder: String) -> Result<FileStat, Box<dyn std::error::Erro
 }
 
 fn file_stat(size_before: u64, size_after: u64) -> FileStat {
-    let diff = size_before - size_after;
+    let diff = size_before as i64 - size_after as i64;
 
     let ratio = diff as f32 / size_before as f32;
 
     FileStat {
-        diff: Size::from_bytes(diff),
+        diff: Size::from_bytes(diff.abs()),
+        negative_diff: diff < 0,
         ratio: (ratio * 10000_f32).round() / 100_f32,
     }
 }
@@ -91,6 +93,7 @@ mod tests {
             file_stat(1024, 768),
             FileStat {
                 diff: Size::from_bytes(256),
+                negative_diff: false,
                 ratio: 25.0,
             }
         );
@@ -102,7 +105,20 @@ mod tests {
             file_stat(1024, 900),
             FileStat {
                 diff: Size::from_bytes(124),
+                negative_diff: false,
                 ratio: 12.11,
+            }
+        );
+    }
+
+    #[test]
+    fn test_negative_diff() {
+        assert_eq!(
+            file_stat(900, 1024),
+            FileStat {
+                diff: Size::from_bytes(124),
+                negative_diff: true,
+                ratio: -13.78,
             }
         );
     }
