@@ -65,6 +65,13 @@ pub fn gc(folder: String) {
                                 format!("{:.2}%", fs.ratio).green().bold(),
                                 fs.diff.to_string().bright_black()
                             )
+                        } else if fs.ratio < 0_f32 {
+                            println!(
+                                "{} {} ({})",
+                                " — Lost".bright_black(),
+                                format!("{:.2}%", fs.ratio).red().bold(),
+                                fs.diff.to_string().bright_black()
+                            )
                         } else {
                             println!("{}", " — No change".bright_black())
                         }
