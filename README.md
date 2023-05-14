@@ -37,6 +37,3 @@ Options:
 ```
 
 This will scan for git repository in your current directory and if it finds one, it will execute the `git gc --aggressive` command.
-
-## Result
-![capture](doc/capture.png)

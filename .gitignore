@@ -1,5 +1,10 @@
 # ide
-.idea
+.idea/*
+!.idea/runConfigurations
+!.idea/codeStyles
+!.idea/inspectionProfiles
+!.idea/copyright
+*.iml
 
 # build
 git-compact
