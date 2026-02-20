@@ -12,7 +12,7 @@ strip = true
 codegen-units = 1
 
 [dependencies]
-clap = { version = "4.5.59", features = ["derive"] }
+clap = { version = "4.5.60", features = ["derive"] }
 colored = "3.1.1"
 exitcode = "1.1.2"
 size = "0.5.0"
